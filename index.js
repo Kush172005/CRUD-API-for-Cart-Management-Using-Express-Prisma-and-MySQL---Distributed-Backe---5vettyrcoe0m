@@ -1,24 +1,20 @@
-const express = require('express');
-const cartRoutes = require('./routes/cartRoutes');
-
+const express = require("express");
+const cartRoutes = require("./routes/cartRoutes");
+// const { authMiddleware } = require("./middleware/authMiddleware");
+const router = require("./routes/cartRoutes");
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
 
-// Product routes 
-app.use('/api/cart', cartRoutes);
+// app.use(authMiddleware);
 
-// Catch undefined routes
-app.use((req, res) => {
-    res.status(404).json({
-      error: 'Route not found',
-    });
-  });
+app.use("/api/cart", cartRoutes);
 
-// Start the server
-const PORT = process.env.PORT || 3000;
+app.use("/", router);
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;
